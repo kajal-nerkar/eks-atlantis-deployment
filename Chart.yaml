@@ -1,0 +1,4 @@
+apiVersion: v2
+name: atlantis
+description: A Helm chart for deploying Atlantis on Kubernetes
+version: 0.1.0
