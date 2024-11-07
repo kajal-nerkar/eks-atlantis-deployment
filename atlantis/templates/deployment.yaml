@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app: atlantis
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: atlantis
+  template:
+    metadata:
+      labels:
+        app: atlantis
+    spec:
+      containers:
+        - name: atlantis
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 4141
+          env:
+            - name: ATLANTIS_URL
+              value: {{ .Values.atlantis.url }}
+            - name: ATLANTIS_GIT_USER
+              value: {{ .Values.atlantis.git.user }}
+            - name: ATLANTIS_GIT_TOKEN
+              value: {{ .Values.atlantis.git.token }}
+          # Uncomment below if additional environment variables are needed
+          # envFrom:
+          #   - configMapRef:
+          #       name: atlantis-config
